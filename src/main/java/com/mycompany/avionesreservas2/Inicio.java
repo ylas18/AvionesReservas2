@@ -224,7 +224,7 @@ public class Inicio {
         Scanner entrada = new Scanner(System.in);
         int precio = 0;
         List<Silla> listaSillaReserva = new ArrayList<Silla>();
-        List<Avion> listaAvionReserva =  list;
+        List<Avion> listaAvionReserva = list;
         List<Silla> listaSilla = null;
         System.out.print("\033[34mIngrese la cedula de la persona: ");
         int cedula = entrada.nextInt();
@@ -272,7 +272,7 @@ public class Inicio {
                                 a.setListaSilla(listaSilla);
 
                             }
-                            Reserva reser = new Reserva(cedula, codigo-1, precio, listaSillaReserva);
+                            Reserva reser = new Reserva(cedula, codigo - 1, precio, listaSillaReserva);
                             listaSillaReserva.add(s);
                             pas.getListaReserva().add(reser);
                             precio = precio + s.getPrecio();
@@ -286,16 +286,15 @@ public class Inicio {
 
             System.out.println("\033[32mDatos de compra.");
             System.out.println("\033[32mNombre Pasajero:" + pas.getNombre());
-          for(Avion a: listaAvionReserva){
-              System.out.println("\033[32mAerolinea: " +a.getAerolinea());
-            
-            for (Silla s : listaSillaReserva) {
-                System.out.println("\033[32mSilla: " + s.getFila() + s.getColumna() + "\033[32mprecio: " + s.getPrecio());
+            for (Avion a : listaAvionReserva) {
+                System.out.println("\033[32mAerolinea: " + a.getAerolinea());
+
+                for (Silla s : listaSillaReserva) {
+                    System.out.println("\033[32mSilla: " + s.getFila() + s.getColumna() + "\033[32mprecio: " + s.getPrecio());
+                }
+                System.out.println("\033[32mPrecio Total: " + precio);
             }
-            System.out.println("\033[32mPrecio Total: " + precio);
-          }
         }
-        
 
         System.out.println("Lista de Aviones.");
         for (Avion listaAviones : listaAvion) {
@@ -378,5 +377,4 @@ public class Inicio {
             }
         }
     }
-
 }
