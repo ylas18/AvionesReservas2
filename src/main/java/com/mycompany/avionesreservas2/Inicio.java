@@ -376,5 +376,144 @@ public class Inicio {
             }
         }
     }
+    public String reservarPrueba(List<Avion> list, int cedulaCliente, int codigoAvion, int columnaSilla, String nombrePersona, char letraSilla) {
+
+        Scanner entrada = new Scanner(System.in);
+        int precio = 0;
+        int cedula = 0;
+        List<Silla> listaSillaReserva = new ArrayList<Silla>();
+
+        List<Silla> listaSilla = null;
+
+        Date fechaN = null;
+
+        Pasajero pas = new Pasajero(cedula, nombrePersona, fechaN);
+        int opc1 = 1;
+        int opc2 = 1;
+        String sillaPrueba = null;
+        while (opc1 == 1) {
+
+            int codigo = codigoAvion;
+
+            opc2 = 1;
+            while (opc2 == 1) {
+
+                char fila = letraSilla;
+
+                int columna = columnaSilla;
+
+                opc2 = entrada.nextInt();
+                listaSilla = listaAvion.get(codigo - 1).getListaSilla();
+                for (Silla s : listaSilla) {
+                    if (s.getColumna() == columna && s.getFila() == fila) {
+                        if (s.isEstado() == false) {
+                            System.err.println("Esta silla ya se encuentra reservada");
+
+                        } else {
+                            s.setEstado(false);
+                            sillaPrueba = String.valueOf(s.getColumna() + s.getFila());
+                            Reserva reser = new Reserva(cedula, codigo - 1, precio, listaSillaReserva);
+                            listaSillaReserva.add(s);
+                            pas.getListaReserva().add(reser);
+                            precio = precio + s.getPrecio();
+                        }
+                    }
+                }
+
+            }
+            System.out.print("\033[32mDigite 1 para ingresar otra reserva: ");
+            opc1 = entrada.nextInt();
+        }
+
+        System.out.println("\033[32mDatos de compra.");
+        System.out.println("\033[32mNombre Pasajero:" + pas.getNombre());
+
+        for (Silla s : listaSillaReserva) {
+            System.out.println("\033[32mSilla: " + s.getFila() + s.getColumna() + "\033[32mprecio: " + s.getPrecio());
+        }
+        System.out.println("\033[32mPrecio Total: " + precio);
+
+        System.out.println("Lista de Aviones.");
+        for (Avion listaAviones : listaAvion) {
+            if (listaAviones instanceof AvionStandar) {
+                AvionStandar x;
+                x = ((AvionStandar) listaAviones);
+                System.out.println("\033[31mAvion Standar");
+                System.out.println("\033[36m      ~     ");
+                System.out.println("\033[36m************");
+                System.out.println("\033[34m" + x.getAerolinea());
+                System.out.println("\033[36m**°******°**");
+                System.out.println("\033[36m************");
+
+                for (Silla r : x.getListaSilla()) {
+
+                    if (r.isEstado() == false) {
+                        System.out.print("\033[36m*****");
+                        System.out.print("\033[31m" + r.getFila() + "\033[31m" + r.getColumna());
+                        System.out.print("\033[36m*****");
+                        System.out.println("\033[36m");
+                    } else {
+                        System.out.print("\033[36m*****");
+                        System.out.print("\033[32m" + r.getFila() + "\033[32m" + r.getColumna());
+                        System.out.print("\033[36m*****");
+                        System.out.println("\033[36m");
+                    }
+                }
+                System.out.println("");
+
+            } else if (listaAviones instanceof AvionVIP) {
+                AvionVIP x;
+                x = ((AvionVIP) listaAviones);
+                System.out.println("\033[34mAvion VIP");
+                System.out.println("\033[36m      ~     ");
+                System.out.println("\033[36m************");
+                System.out.println("\033[34m" + x.getAerolinea());
+                System.out.println("\033[36m**°******°**");
+                System.out.println("\033[36m************");
+
+                for (Silla r : x.getListaSilla()) {
+
+                    if (r.isEstado() == false) {
+                        System.out.print("\033[36m*****");
+                        System.out.print("\033[31m" + r.getFila() + "\033[31m" + r.getColumna());
+                        System.out.print("\033[36m*****");
+                        System.out.println("\033[36m");
+                    } else {
+                        System.out.print("\033[36m*****");
+                        System.out.print("\033[32m" + r.getFila() + "\033[32m" + r.getColumna());
+                        System.out.print("\033[36m*****");
+                        System.out.println("\033[36m");
+                    }
+                }
+                System.out.println("");
+            } else if (listaAviones instanceof AvionMix) {
+                AvionMix x;
+                x = ((AvionMix) listaAviones);
+                System.out.println("\033[34mAvion Mix");
+                System.out.println("\033[36m      ~     ");
+                System.out.println("\033[36m************");
+                System.out.println("\033[34m" + x.getAerolinea());
+                System.out.println("\033[36m**°******°**");
+                System.out.println("\033[36m************");
+
+                for (Silla r : x.getListaSilla()) {
+
+                    if (r.isEstado() == false) {
+                        System.out.print("\033[36m*****");
+                        System.out.print("\033[31m" + r.getFila() + "\033[31m" + r.getColumna());
+                        System.out.print("\033[36m*****");
+                        System.out.println("\033[36m");
+                    } else {
+                        System.out.print("\033[36m*****");
+                        System.out.print("\033[32m" + r.getFila() + "\033[32m" + r.getColumna());
+                        System.out.print("\033[36m*****");
+                        System.out.println("\033[36m");
+                    }
+                }
+                System.out.println("");
+            }
+        }
+        return sillaPrueba;
+    }
 
 }
