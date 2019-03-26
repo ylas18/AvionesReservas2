@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -76,6 +77,22 @@ public class Inicio {
         AvionStandar avionComercial = new AvionStandar(2, "VivaColombia");
         AvionMix avionMix = new AvionMix(3, "LATAM");
 
+        avionComercial.getListaSilla().add(comercial1);
+        avionComercial.getListaSilla().add(comercial2);
+        avionComercial.getListaSilla().add(comercial3);
+        avionComercial.getListaSilla().add(comercial4);
+        avionComercial.getListaSilla().add(comercial5);
+        avionComercial.getListaSilla().add(comercial6);
+        avionComercial.getListaSilla().add(comercial7);
+        avionComercial.getListaSilla().add(comercial8);
+        avionComercial.getListaSilla().add(comercial9);
+        avionComercial.getListaSilla().add(comercial10);
+        avionComercial.getListaSilla().add(comercial11);
+        avionComercial.getListaSilla().add(comercial12);
+        avionComercial.getListaSilla().add(comercial13);
+        avionComercial.getListaSilla().add(comercial14);
+        avionComercial.getListaSilla().add(comercial15);
+        
         avionVIP.getListaSilla().add(VIP1);
         avionVIP.getListaSilla().add(VIP2);
         avionVIP.getListaSilla().add(VIP3);
@@ -92,26 +109,8 @@ public class Inicio {
         avionVIP.getListaSilla().add(VIP14);
         avionVIP.getListaSilla().add(VIP15);
 
-        avionComercial.getListaSilla().add(comercial1);
-        avionComercial.getListaSilla().add(comercial2);
-        avionComercial.getListaSilla().add(comercial3);
-        avionComercial.getListaSilla().add(comercial4);
-        avionComercial.getListaSilla().add(comercial5);
-        avionComercial.getListaSilla().add(comercial6);
-        avionComercial.getListaSilla().add(comercial7);
-        avionComercial.getListaSilla().add(comercial8);
-        avionComercial.getListaSilla().add(comercial9);
-        avionComercial.getListaSilla().add(comercial10);
-        avionComercial.getListaSilla().add(comercial11);
-        avionComercial.getListaSilla().add(comercial12);
-        avionComercial.getListaSilla().add(comercial13);
-        avionComercial.getListaSilla().add(comercial14);
-        avionComercial.getListaSilla().add(comercial15);
-
         avionMix.getListaSilla().add(Mix1);
         avionMix.getListaSilla().add(Mix2);
-        avionMix.getListaSilla().add(Mix3);
-        avionMix.getListaSilla().add(Mix4);
         avionMix.getListaSilla().add(Mix5);
         avionMix.getListaSilla().add(Mix6);
         avionMix.getListaSilla().add(Mix7);
@@ -127,6 +126,7 @@ public class Inicio {
         listaAvion.add(avionVIP);
         listaAvion.add(avionComercial);
         listaAvion.add(avionMix);
+
         return listaAvion;
     }
 
@@ -223,12 +223,19 @@ public class Inicio {
 
         Scanner entrada = new Scanner(System.in);
         int precio = 0;
+        int cedula = 0;
         List<Silla> listaSillaReserva = new ArrayList<Silla>();
-        List<Avion> listaAvionReserva = list;
+        
         List<Silla> listaSilla = null;
-        System.out.print("\033[34mIngrese la cedula de la persona: ");
-        int cedula = entrada.nextInt();
-        entrada.nextLine();
+        try {
+            System.out.print("\033[34mIngrese la cedula de la persona: ");
+            cedula = entrada.nextInt();
+            entrada.nextLine();
+        } catch (InputMismatchException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+        }
 
         System.out.print("\033[34mIngrese el nombre de la persona: ");
         String nombre = entrada.nextLine();
@@ -257,7 +264,7 @@ public class Inicio {
                 int columna = entrada.nextInt();
                 System.out.print("\033[32mDigite 1 para ingresar otra silla: ");
                 opc2 = entrada.nextInt();
-                listaSilla = listaAvionReserva.get(codigo - 1).getListaSilla();
+                listaSilla = listaAvion.get(codigo - 1).getListaSilla();
                 for (Silla s : listaSilla) {
                     if (s.getColumna() == columna && s.getFila() == fila) {
                         if (s.isEstado() == false) {
@@ -266,12 +273,7 @@ public class Inicio {
                         } else {
                             s.setEstado(false);
 
-                            listaAvionReserva.get((codigo - 1));
-                            for (Avion a : listaAvionReserva) {
-                                System.err.println("Aerolinea: " + a.getAerolinea());
-                                a.setListaSilla(listaSilla);
-
-                            }
+                           
                             Reserva reser = new Reserva(cedula, codigo - 1, precio, listaSillaReserva);
                             listaSillaReserva.add(s);
                             pas.getListaReserva().add(reser);
@@ -283,18 +285,15 @@ public class Inicio {
             }
             System.out.print("\033[32mDigite 1 para ingresar otra reserva: ");
             opc1 = entrada.nextInt();
-
-            System.out.println("\033[32mDatos de compra.");
-            System.out.println("\033[32mNombre Pasajero:" + pas.getNombre());
-            for (Avion a : listaAvionReserva) {
-                System.out.println("\033[32mAerolinea: " + a.getAerolinea());
-
-                for (Silla s : listaSillaReserva) {
-                    System.out.println("\033[32mSilla: " + s.getFila() + s.getColumna() + "\033[32mprecio: " + s.getPrecio());
-                }
-                System.out.println("\033[32mPrecio Total: " + precio);
-            }
         }
+
+        System.out.println("\033[32mDatos de compra.");
+        System.out.println("\033[32mNombre Pasajero:" + pas.getNombre());
+
+        for (Silla s : listaSillaReserva) {
+            System.out.println("\033[32mSilla: " + s.getFila() + s.getColumna() + "\033[32mprecio: " + s.getPrecio());
+        }
+        System.out.println("\033[32mPrecio Total: " + precio);
 
         System.out.println("Lista de Aviones.");
         for (Avion listaAviones : listaAvion) {
@@ -377,4 +376,5 @@ public class Inicio {
             }
         }
     }
+
 }
